@@ -76,8 +76,11 @@ app.post('/webhook/', function (req, res) {
             if (text === config.last_user) {
               poop = '\uD83D\uDCA9'
               sendTextMessage(sender, poop)
+            } else if (text === 'Hi Truman') {
+              sendTextMessage(sender, 'Greetings fellow humans!')
             }
             //sendTextMessage(sender, text.substring(0, 200))
+
         }
     }
     res.sendStatus(200)
