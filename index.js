@@ -73,7 +73,10 @@ app.post('/webhook/', function (req, res) {
         sender = event.sender.id
         if (event.message && event.message.text) {
             text = event.message.text
-            sendTextMessage(sender, text.substring(0, 200))
+            if (text === config.last_user) {
+              sendTextMessage(sender, 'poop emoji')
+            }
+            //sendTextMessage(sender, text.substring(0, 200))
         }
     }
     res.sendStatus(200)
