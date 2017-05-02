@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  .container
+    h3 #{leagueData.name} - Week 1 Scores
+    each match in leagueData.scoreboard.matchups 
+      each team, index in match.teams
+        if index == 0
+          .team-score #{team.name} #[strong #{team.points.total}] vs
+        else
+          .team-score #{team.name} #[strong #{team.points.total}]
+          br
