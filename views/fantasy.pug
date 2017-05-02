@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  .container
+    h3 #{leagueData.name} - Standings
+    each team in leagueData.standings 
+      p #[strong #{team.standings.rank} -] #{team.name} (#{team.standings.outcome_totals.wins} - #{team.standings.outcome_totals.losses})

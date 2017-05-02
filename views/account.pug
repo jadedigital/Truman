@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .container  
+    h3 ID: #{user.guid}
+    h2 #{user.firstName} #{user.lastName}
+    h3 Yahoo Fantasy Leagues
+    each sport in leagueData.leagues 
+      each league in sport.leagues
+        p 
+          a.btn.btn-primary #{league.name} #{league.league_key}
