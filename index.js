@@ -72,15 +72,15 @@ app.post('/webhook/', function (req, res) {
         event = req.body.entry[0].messaging[i]
         sender = event.sender.id
         if (event.message && event.message.text) {
-            text = event.message.text
+            text = event.message.text.toLowerCase()
             if (text === config.last_user) {
               poop = '\uD83D\uDCA9'
               sendTextMessage(sender, poop)
             } else if (text === 'Hi Truman') {
               sendTextMessage(sender, 'Greetings fellow humans!')
-            } else if (text === ('standings' || 'Standings')) {
+            } else if (text === 'standings') {
               sendTextMessage(sender, '1 -Team A, 2 - Team B, 3 - Team C')
-            } else if (text === ('scores' || 'Scores')) {
+            } else if (text === 'scores') {
               sendTextMessage(sender, 'Team A (97.5) vs Team B (92.6), Team C (102.4) vs Team D (91.6)')
             }
             //sendTextMessage(sender, text.substring(0, 200))
