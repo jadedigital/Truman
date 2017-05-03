@@ -78,6 +78,10 @@ app.post('/webhook/', function (req, res) {
               sendTextMessage(sender, poop)
             } else if (text === 'Hi Truman') {
               sendTextMessage(sender, 'Greetings fellow humans!')
+            } else if (text === ('standings' || 'Standings')) {
+              sendTextMessage(sender, '1 -Team A, 2 - Team B, 3 - Team C')
+            } else if (text === ('scores' || 'Scores')) {
+              sendTextMessage(sender, 'Team A (97.5) vs Team B (92.6), Team C (102.4) vs Team D (91.6)')
             }
             //sendTextMessage(sender, text.substring(0, 200))
 
