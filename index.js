@@ -32,6 +32,10 @@ app.get('/', function(req, res){
   res.render('index', { user: req.session.user });
 });
 
+app.get('/privacy', function(req, res){
+  res.render('privacy', { user: req.session.user });
+});
+
 app.get('/account', ensureAuthenticated, function(req, res){
   var game_key = 'nfl'
   yf.setUserToken(req.session.user.accessToken);
