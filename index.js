@@ -216,7 +216,7 @@ function sendTextMessage(recipientId, messageText) {
 
 function callSendAPI(endPoint, messageData) {
   request({
-    uri: 'https://graph.facebook.com/v2.6/me/${endPoint}',
+    uri: `https://graph.facebook.com/v2.6/me/${endPoint}`,
     qs: { access_token:token},
     method: 'POST',
     json: messageData
