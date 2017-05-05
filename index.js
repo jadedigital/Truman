@@ -77,44 +77,123 @@ app.post('/webhook/', function (req, res) {
         sender = event.sender.id
         if (event.message && event.message.text) {
             text = event.message.text.toLowerCase()
-            if (text === config.last_user) {
-              poop = '\uD83D\uDCA9'
-              sendTextMessage(sender, poop)
-            } else if (text === 'Hi Truman') {
-              sendTextMessage(sender, 'Greetings fellow humans!')
-            } else if (text === 'standings') {
-              sendTextMessage(sender, '1 -Team A, 2 - Team B, 3 - Team C')
-            } else if (text === 'scores') {
-              sendTextMessage(sender, 'Team A (97.5) vs Team B (92.6), Team C (102.4) vs Team D (91.6)')
+            switch (messageText) {
+              case 'get started':
+                getStartedMessage(senderID);
+                break;
+              case 'davis':
+                poop = '\uD83D\uDCA9'
+                sendTextMessage(sender, poop)  
+              default:
+                sendTextMessage(senderID, messageText);
             }
-            //sendTextMessage(sender, text.substring(0, 200))
-
+        }
+        else if (event.postback) {
+          receivedPostback(event);
         }
     }
     res.sendStatus(200)
 })
 
+function receivedPostback(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfPostback = event.timestamp;
+
+  // The 'payload' param is a developer-defined field which is set in a postback 
+  // button for Structured Messages. 
+  var payload = event.postback.payload;
+
+  console.log("Received postback for user %d and page %d with payload '%s' " + 
+    "at %d", senderID, recipientID, payload, timeOfPostback);
+
+  // When a postback is called, we'll send a message back to the sender to 
+  // let them know it was successful
+  sendTextMessage(senderID, "Postback called");
+}
+
+function getStartedMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [{
+            title: "FantasyReporter",
+            subtitle: "Keep up to date on your league",
+            item_url: "https://fantasyreporter.xyz",               
+            image_url: "https://scontent-ort2-1.xx.fbcdn.net/v/t39.2081-0/p128x128/18316451_1650528714961517_6136078424126521344_n.png?oh=26fa41fbba558c1619d904121b0c4444&oe=5986127C",
+            buttons: [{
+              type: "web_url",
+              url: "https://fantasyreporter.xyz",
+              title: "Open Web URL"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "Payload for first bubble",
+            }],
+          }, {
+            title: "League",
+            subtitle: "Set your league ID",
+            item_url: "http://myfantasyleague.com",               
+            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
+            buttons: [{
+              type: "web_url",
+              url: "http://myfantasyleague.com",
+              title: "Open Web URL"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "Payload for second bubble",
+            }]
+          }]
+        }
+      }
+    }
+  };  
+
+  sendTextMessage(messageData);
+}
+
 var token = process.env.FACEBOOK_TOKEN
 
-function sendTextMessage(sender, text) {
-    messageData = {
-        text:text
+function sendTextMessage(recipientId, messageText) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText
     }
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message: messageData,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
+  };
+
+  callSendAPI(messageData);
+}
+
+function callSendAPI(messageData) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: { access_token:token},
+    method: 'POST',
+    json: messageData
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+
+      console.log("Successfully sent generic message with id %s to recipient %s", 
+        messageId, recipientId);
+    } else {
+      console.error("Unable to send message.");
+      console.error(response);
+      console.error(error);
+    }
+  });  
 }
 
 
