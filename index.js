@@ -77,15 +77,16 @@ app.post('/webhook/', function (req, res) {
         sender = event.sender.id
         if (event.message && event.message.text) {
             text = event.message.text.toLowerCase()
-            switch (messageText) {
+            switch (text) {
               case 'get started':
-                getStartedMessage(senderID);
+                getStartedMessage(sender);
                 break;
               case 'davis':
                 poop = '\uD83D\uDCA9'
                 sendTextMessage(sender, poop)  
               default:
-                sendTextMessage(senderID, messageText);
+                console.log(text)
+                //sendTextMessage(senderID, messageText);
             }
         }
         else if (event.postback) {
