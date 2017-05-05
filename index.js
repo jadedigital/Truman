@@ -226,7 +226,7 @@ function callSendAPI(endPoint, messageData) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
 
-      console.log("Successfully sent message to ${endPoint} endpoint", 
+      console.log(`Successfully sent message to ${endPoint} endpoint`, 
         messageId, recipientId);
     } else {
       console.error("Unable to send message.");
