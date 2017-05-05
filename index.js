@@ -117,7 +117,15 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  switch (payload) {
+    case 'standingsPayload':
+      getStandings(senderID)
+      break
+    case 'scoresPayload':
+      getScores(senderID)
+      break
+    default:
+      sendTextMessage(senderID, "Postback called");
 }
 
 function getStartedMessage(recipientId) {
@@ -142,11 +150,11 @@ function getStartedMessage(recipientId) {
             }, {
               type: "postback",
               title: "Standings",
-              payload: "Payload for first bubble",
+              payload: "standingsPayload",
             },{
               type: "postback",
               title: "Scores",
-              payload: "Payload for second bubble",
+              payload: "scoresPayload",
             }],
           }]
         }
