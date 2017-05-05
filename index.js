@@ -126,6 +126,7 @@ function receivedPostback(event) {
       break
     default:
       sendTextMessage(senderID, "Postback called");
+  }
 }
 
 function getStartedMessage(recipientId) {
