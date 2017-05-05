@@ -157,7 +157,7 @@ function getStartedMessage(recipientId) {
     }
   };  
 
-  sendTextMessage(messageData);
+  callSendAPI(messageData);
 }
 
 var token = process.env.FACEBOOK_TOKEN
