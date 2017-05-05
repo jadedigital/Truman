@@ -79,11 +79,18 @@ app.post('/webhook/', function (req, res) {
             text = event.message.text.toLowerCase()
             switch (text) {
               case 'get started':
-                getStartedMessage(sender);
-                break;
+                getStartedMessage(sender)
+                break
               case 'davis':
                 poop = '\uD83D\uDCA9'
-                sendTextMessage(sender, poop)  
+                sendTextMessage(sender, poop)
+                break
+              case 'standings':
+                getStandings(sender)
+                break
+              case 'scores':
+                getScores(sender)
+                break
               default:
                 console.log(text)
                 //sendTextMessage(senderID, messageText);
@@ -124,36 +131,54 @@ function getStartedMessage(recipientId) {
         payload: {
           template_type: "generic",
           elements: [{
-            title: "FantasyReporter",
-            subtitle: "Keep up to date on your league",
+            title: "Fantasy Reporter",
+            subtitle: "Keep up to date on your MFL fantasy league",
             item_url: "https://fantasyreporter.xyz",               
             image_url: "https://scontent-ort2-1.xx.fbcdn.net/v/t39.2081-0/p128x128/18316451_1650528714961517_6136078424126521344_n.png?oh=26fa41fbba558c1619d904121b0c4444&oe=5986127C",
             buttons: [{
               type: "web_url",
               url: "https://fantasyreporter.xyz",
-              title: "Open Web URL"
+              title: "Set League ID"
             }, {
               type: "postback",
-              title: "Call Postback",
+              title: "Standings",
               payload: "Payload for first bubble",
-            }],
-          }, {
-            title: "League",
-            subtitle: "Set your league ID",
-            item_url: "http://myfantasyleague.com",               
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-            buttons: [{
-              type: "web_url",
-              url: "http://myfantasyleague.com",
-              title: "Open Web URL"
-            }, {
+            },{
               type: "postback",
-              title: "Call Postback",
+              title: "Scores",
               payload: "Payload for second bubble",
-            }]
+            }],
           }]
         }
       }
+    }
+  };  
+
+  callSendAPI(messageData);
+}
+
+function getStandings(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      //call MFL API and to fetch standings
+      text: "Standings go here"
+    }
+  };  
+
+  callSendAPI(messageData);
+}
+
+function getScores(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      //call MFL API and to fetch scores
+      text: "Scores go here"
     }
   };  
 
