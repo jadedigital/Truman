@@ -7,6 +7,8 @@ var path = require('path')
 var YantasySports = require('yahoo-fantasy-without-auth')
 require('dotenv').config()
 var config = require('./config')
+var ThreadSetup = require('./thread-setup')
+
 
 var clientId = process.env.YAHOO_CLIENTID
 var clientSecret = process.env.YAHOO_CLIENTSECRET
@@ -166,7 +168,7 @@ function getStartedMessage(recipientId) {
     }
   };  
 
-  callSendAPI(messageData);
+  callSendAPI('messages', messageData);
 }
 
 function getStandings(recipientId) {
@@ -180,7 +182,7 @@ function getStandings(recipientId) {
     }
   };  
 
-  callSendAPI(messageData);
+  callSendAPI('messages', messageData);
 }
 
 function getScores(recipientId) {
@@ -194,7 +196,7 @@ function getScores(recipientId) {
     }
   };  
 
-  callSendAPI(messageData);
+  callSendAPI('messages', messageData);
 }
 
 var token = process.env.FACEBOOK_TOKEN
@@ -209,12 +211,12 @@ function sendTextMessage(recipientId, messageText) {
     }
   };
 
-  callSendAPI(messageData);
+  callSendAPI('messages', messageData);
 }
 
-function callSendAPI(messageData) {
+function callSendAPI(endPoint, messageData) {
   request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    uri: 'https://graph.facebook.com/v2.6/me/${endPoint}',
     qs: { access_token:token},
     method: 'POST',
     json: messageData
@@ -224,7 +226,7 @@ function callSendAPI(messageData) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s", 
+      console.log("Successfully sent message to ${endPoint} endpoint", 
         messageId, recipientId);
     } else {
       console.error("Unable to send message.");
@@ -234,6 +236,13 @@ function callSendAPI(messageData) {
   });  
 }
 
+/* =============================================
+   =              Messenger Setup              =
+   ============================================= */
+
+// ThreadSetup.domainWhitelisting()
+callSendAPI('thread_settings', ThreadSetup.persistentMenu)
+// ThreadSetup.getStartedButton()
 
 
 // GET /auth/yahoo
