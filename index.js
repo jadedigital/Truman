@@ -118,6 +118,9 @@ function receivedPostback(event) {
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
   switch (payload) {
+    case 'GET_STARTED_PAYLOAD':
+      getStartedMessage(sender)
+      break
     case 'standingsPayload':
       getStandings(senderID)
       break
