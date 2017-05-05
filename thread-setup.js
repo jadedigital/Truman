@@ -14,12 +14,12 @@ setup.persistentMenu = {
     {
         type: 'postback',
         title: 'Standings',
-        payload: 'getStandings',
+        payload: 'standingsPayload',
     },
     {
         type: 'postback',
         title: 'Scores',
-        payload: 'getScores',
+        payload: 'scoresPayload',
     },
     ],
 }
