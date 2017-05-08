@@ -148,7 +148,7 @@ function getStartedMessage(recipientId) {
             title: "Fantasy Reporter",
             subtitle: "Keep up to date on your MFL fantasy league",
             item_url: "https://fantasyreporter.xyz",               
-            image_url: "https://scontent-ort2-1.xx.fbcdn.net/v/t39.2081-0/p128x128/18316451_1650528714961517_6136078424126521344_n.png?oh=26fa41fbba558c1619d904121b0c4444&oe=5986127C",
+            image_url: "http://www79.myfantasyleague.com/fflnetdynamic2017/20399_league_logo.png",
             buttons: [{
               type: "web_url",
               url: "https://fantasyreporter.xyz",
